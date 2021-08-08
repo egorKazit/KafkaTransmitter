@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Servers>
+        <Server>
+            <Id>1</Id>
+            <Enabled>true</Enabled>
+            <!--No Type Only Udp-->
+            <Port>8081</Port>
+        </Server>
+        <Server>
+            <Id>2</Id>
+            <Enabled>true</Enabled>
+            <Port>8082</Port>
+        </Server>
+        <Server>
+            <Id>3</Id>
+            <Enabled>true</Enabled>
+            <Port>8083</Port>
+        </Server>
+        <Server>
+            <Id>4</Id>
+            <Enabled>true</Enabled>
+            <Port>8084</Port>
+        </Server>
+    </Servers>
+    <Clients>
+        <Client>
+            <Id>1</Id>
+            <Enabled>true</Enabled>
+            <Host>localhost</Host>
+            <Type>tcp</Type>
+            <Port>10100</Port>
+        </Client>
+        <Client>
+            <Id>2</Id>
+            <Enabled>true</Enabled>
+            <Host>localhost</Host>
+            <Type>tcp</Type>
+            <Port>10101</Port>
+        </Client>
+    </Clients>
+</Configuration>
