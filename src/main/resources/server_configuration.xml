@@ -6,21 +6,25 @@
             <Enabled>true</Enabled>
             <!--No Type Only Udp-->
             <Port>8081</Port>
+            <Type>udp</Type>
         </Server>
         <Server>
             <Id>2</Id>
             <Enabled>true</Enabled>
             <Port>8082</Port>
+            <Type>udp</Type>
         </Server>
         <Server>
             <Id>3</Id>
             <Enabled>true</Enabled>
             <Port>8083</Port>
+            <Type>tcp</Type>
         </Server>
         <Server>
             <Id>4</Id>
             <Enabled>true</Enabled>
             <Port>8084</Port>
+            <Type>tcp</Type>
         </Server>
     </Servers>
     <Clients>
