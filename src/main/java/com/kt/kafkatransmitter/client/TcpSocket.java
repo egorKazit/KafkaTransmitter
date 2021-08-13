@@ -9,9 +9,9 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 @Log4j2
-public class TcpAbstractSocket extends AbstractSocket {
+public class TcpSocket extends AbstractSocket {
 
-    TcpAbstractSocket() {
+    TcpSocket() {
     }
 
     public void send(String message) throws IOException {
@@ -19,7 +19,7 @@ public class TcpAbstractSocket extends AbstractSocket {
         try (Socket socket = SocketFactory
                 .getDefault()
                 .createSocket(host, port)) {
-            socket.setSoTimeout(1000);
+            socket.setSoTimeout(10000);
             socket.getOutputStream().write((message + "\r\n").getBytes());
             log.debug("Message {} was sent sent", message);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -33,6 +33,7 @@ public class TcpAbstractSocket extends AbstractSocket {
                 log.debug("Empty response is very bad sign");
                 throw new IOException();
             }
+            System.out.println(responseBuilder);
             // handle specific response
 //            if(!responseBuilder.toString().contains(""))
 //                throw new IOException();

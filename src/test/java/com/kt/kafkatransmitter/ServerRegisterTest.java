@@ -1,6 +1,6 @@
 package com.kt.kafkatransmitter;
 
-import com.kt.kafkatransmitter.listener.udp.ServerIterator;
+import com.kt.kafkatransmitter.listener.ServerIterator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

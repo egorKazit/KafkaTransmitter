@@ -1,8 +1,7 @@
-package com.kt.kafkatransmitter.listener.udp;
+package com.kt.kafkatransmitter.listener;
 
 import com.kt.kafkatransmitter.kafka.Producer;
 import com.kt.kafkatransmitter.model.EntityFactory;
-import com.kt.kafkatransmitter.model.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;

@@ -1,6 +1,6 @@
 package com.kt.kafkatransmitter;
 
-import com.kt.kafkatransmitter.listener.udp.ServerIterator;
+import com.kt.kafkatransmitter.listener.ServerIterator;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.dsl.context.IntegrationFlowContext;
