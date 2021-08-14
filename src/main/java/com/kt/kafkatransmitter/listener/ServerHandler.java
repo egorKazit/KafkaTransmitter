@@ -1,4 +1,4 @@
-package com.kt.kafkatransmitter.listener.udp;
+package com.kt.kafkatransmitter.listener;
 
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.boot.configurationprocessor.json.JSONException;

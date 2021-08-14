@@ -1,51 +1,48 @@
 package com.kt.kafkatransmitter.client;
 
-import com.kt.kafkatransmitter.balancer.InternalQueueProducer;
-import com.kt.kafkatransmitter.util.ConfigurationReader;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kt.kafkatransmitter.configuration.CommunicationConfiguration;
+import com.kt.kafkatransmitter.configuration.ConfigurationGetter;
+import com.kt.kafkatransmitter.model.AbstractEntity;
 import org.springframework.messaging.MessageHeaders;
 
 import javax.naming.CommunicationException;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class ClientSocketFactory {
 
-    @Autowired
-    static InternalQueueProducer internalQueueProducer;
-
-    public static Socket createSocketForDestination() {
-        return new Socket();
+    public static void sendEntityToNextDestination(AbstractEntity entity) {
+        new Thread(() -> new Socket().sendData(entity.toString(), new MessageHeaders(new HashMap<>()))).start();
     }
 
-    public static class Socket {
-        ConfigurationReader.CommunicationConfiguration communicationConfiguration;
+    private static class Socket {
+        CommunicationConfiguration clientConfiguration;
 
         private Socket() {
-            //communicationConfiguration = ConfigurationReader.g
+            clientConfiguration = ConfigurationGetter.getNextClientConfiguration();
         }
 
-        public void sendData(String message, MessageHeaders messageHeaders) throws CommunicationException {
+        public void sendData(String message, MessageHeaders messageHeaders) {
             try {
-                switch (communicationConfiguration.getType()) {
-                    case "udp":
+                switch (clientConfiguration.getType()) {
+                    case AbstractSocket.UDP_TYPE:
                         UdpSocket udpSocket = new UdpSocket();
                         udpSocket.setMessageHeaders(messageHeaders);
-                        udpSocket.setHost(communicationConfiguration.getHost());
-                        udpSocket.setPort(communicationConfiguration.getPort());
+                        udpSocket.setHost(clientConfiguration.getHost());
+                        udpSocket.setPort(clientConfiguration.getPort());
                         udpSocket.send(message);
                         break;
-                    case "tcp":
-                        TcpAbstractSocket tcpSocket = new TcpAbstractSocket();
+                    case AbstractSocket.TCP_TYPE:
+                        TcpSocket tcpSocket = new TcpSocket();
                         tcpSocket.setMessageHeaders(messageHeaders);
-                        tcpSocket.setHost(communicationConfiguration.getHost());
-                        tcpSocket.setPort(communicationConfiguration.getPort());
+                        tcpSocket.setHost(clientConfiguration.getHost());
+                        tcpSocket.setPort(clientConfiguration.getPort());
                         tcpSocket.send(message);
                         break;
                     default:
                         throw new CommunicationException();
                 }
-            } catch (IOException e) {
-                InternalQueueProducer.putEntityInQueue(communicationConfiguration.getId(), message);
+            } catch (IOException | CommunicationException e) {
             }
         }
     }

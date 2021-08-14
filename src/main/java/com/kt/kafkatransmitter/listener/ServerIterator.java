@@ -1,4 +1,4 @@
-package com.kt.kafkatransmitter.listener.udp;
+package com.kt.kafkatransmitter.listener;
 
 import org.springframework.integration.dsl.IntegrationFlow;
 

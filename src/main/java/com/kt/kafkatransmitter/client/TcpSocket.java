@@ -9,9 +9,9 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 @Log4j2
-public class TcpAbstractSocket extends AbstractSocket {
+public class TcpSocket extends AbstractSocket {
 
-    TcpAbstractSocket() {
+    TcpSocket() {
     }
 
     public void send(String message) throws IOException {
@@ -33,6 +33,7 @@ public class TcpAbstractSocket extends AbstractSocket {
                 log.debug("Empty response is very bad sign");
                 throw new IOException();
             }
+            System.out.println(responseBuilder);
             // handle specific response
 //            if(!responseBuilder.toString().contains(""))
 //                throw new IOException();
