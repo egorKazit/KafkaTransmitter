@@ -19,7 +19,7 @@ public class TcpSocket extends AbstractSocket {
         try (Socket socket = SocketFactory
                 .getDefault()
                 .createSocket(host, port)) {
-            socket.setSoTimeout(10000);
+            socket.setSoTimeout(1000);
             socket.getOutputStream().write((message + "\r\n").getBytes());
             log.debug("Message {} was sent sent", message);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
