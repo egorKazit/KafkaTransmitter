@@ -1,12 +1,10 @@
 package com.kt.kafkatransmitter.kafka;
 
-import com.kt.kafkatransmitter.balancer.InternalQueue;
-import com.kt.kafkatransmitter.balancer.InternalQueueFactory;
+import com.kt.kafkatransmitter.balancer.PullerQueueFactory;
 import com.kt.kafkatransmitter.model.AbstractEntity;
 import com.kt.kafkatransmitter.util.JavaDeserializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
@@ -24,7 +22,7 @@ public class ConsumerImp extends AbstractKafkaConfig implements Consumer {
     static {
         containerProperties = new ContainerProperties("Generic");
         containerProperties.setMessageListener((MessageListener<Object, Object>) objectObjectConsumerRecord -> {
-            InternalQueueFactory.getInternalQueue().putEntityInQueue((AbstractEntity) objectObjectConsumerRecord.value());
+            PullerQueueFactory.getInternalQueue().putEntityInQueue((AbstractEntity) objectObjectConsumerRecord.value());
         });
         kafkaMessageContainer = new KafkaMessageListenerContainer<>(new DefaultKafkaConsumerFactory<>(getConfig()), containerProperties);
         kafkaMessageContainer.start();

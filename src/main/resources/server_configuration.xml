@@ -39,7 +39,7 @@
             <Id>2</Id>
             <Enabled>true</Enabled>
             <Host>localhost</Host>
-            <Type>udp</Type>
+            <Type>tcp</Type>
             <Port>10101</Port>
         </Client>
     </Clients>

@@ -10,9 +10,9 @@ import java.util.concurrent.atomic.AtomicReference;
 @Log4j2
 public class ConfigurationGetter {
 
-    private static final AtomicReference<LinkedList<CommunicationConfiguration>> serverConfigurations = new AtomicReference<>();
+    private static LinkedList<CommunicationConfiguration> serverConfigurations;
     private static boolean isServerConfigurationsRead;
-    private static final AtomicReference<LinkedList<CommunicationConfiguration>> clientConfigurations = new AtomicReference<>();
+    private static LinkedList<CommunicationConfiguration> clientConfigurations;
     private static boolean isClientConfigurationsRead;
     private static ListIterator<CommunicationConfiguration> clientConfigurationListIterator;
 
@@ -23,18 +23,18 @@ public class ConfigurationGetter {
 
     public static List<CommunicationConfiguration> getServerConfigurations() {
         if (!isServerConfigurationsRead) {
-            serverConfigurations.set(ConfigurationHandler.getCommunicationConfigurations(SERVERS, SERVER));
+            serverConfigurations = ConfigurationHandler.getCommunicationConfigurations(SERVERS, SERVER);
             isServerConfigurationsRead = true;
         }
-        return serverConfigurations.get();
+        return serverConfigurations;
     }
 
     public static List<CommunicationConfiguration> getClientConfigurations() {
         if (!isClientConfigurationsRead) {
-            clientConfigurations.set(ConfigurationHandler.getCommunicationConfigurations(CLIENTS, CLIENT));
+            clientConfigurations = ConfigurationHandler.getCommunicationConfigurations(CLIENTS, CLIENT);
             isClientConfigurationsRead = true;
         }
-        return clientConfigurations.get();
+        return clientConfigurations;
     }
 
     public static CommunicationConfiguration getNextClientConfiguration() {
