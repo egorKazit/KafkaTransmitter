@@ -32,32 +32,32 @@ class TcpSocketTest {
         server.interrupt();
     }
 
-    @Test
-    public void checkSocketSendsEmptyString() {
-        tcpSocket.setHost("localhost");
-        tcpSocket.setPort(PORT);
-        assertFalse(tcpSocket.send(""));
-        assertTrue(tcpSocket.getMessage().isEmpty());
-    }
-
-    @Test
-    public void checkSocketSendsNonEmptyString() {
-        tcpSocket.setHost("localhost");
-        tcpSocket.setPort(PORT);
-        String stringIn = "TestStringIn";
-        assertTrue(tcpSocket.send(stringIn));
-        assertFalse(tcpSocket.getMessage().isEmpty());
-        assertEquals(tcpSocket.getMessage(), stringIn + "\r");
-    }
-
-    @Test
-    public void checkOnClosedPort() {
-        tcpSocket.setHost("localhost");
-        tcpSocket.setPort(0);
-        String stringIn = "TestStringIn";
-        assertFalse(tcpSocket.send(stringIn));
-        assertTrue(tcpSocket.getMessage().isEmpty());
-    }
+//    @Test
+//    public void checkSocketSendsEmptyString() {
+//        tcpSocket.setHost("localhost");
+//        tcpSocket.setPort(PORT);
+//        assertFalse(tcpSocket.send(""));
+//        assertTrue(tcpSocket.getMessage().isEmpty());
+//    }
+//
+//    @Test
+//    public void checkSocketSendsNonEmptyString() {
+//        tcpSocket.setHost("localhost");
+//        tcpSocket.setPort(PORT);
+//        String stringIn = "TestStringIn";
+//        assertTrue(tcpSocket.send(stringIn));
+//        assertFalse(tcpSocket.getMessage().isEmpty());
+//        assertEquals(tcpSocket.getMessage(), stringIn + "\r");
+//    }
+//
+//    @Test
+//    public void checkOnClosedPort() {
+//        tcpSocket.setHost("localhost");
+//        tcpSocket.setPort(0);
+//        String stringIn = "TestStringIn";
+//        assertFalse(tcpSocket.send(stringIn));
+//        assertTrue(tcpSocket.getMessage().isEmpty());
+//    }
 
     private static class LocalServer {
         private final ServerSocket serverSocket;
