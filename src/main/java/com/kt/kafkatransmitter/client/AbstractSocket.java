@@ -2,15 +2,14 @@ package com.kt.kafkatransmitter.client;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.messaging.MessageHeaders;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public abstract class AbstractSocket {
     public static final String TCP_TYPE = "tcp";
     public static final String UDP_TYPE = "udp";
-    @Setter
-    protected MessageHeaders messageHeaders;
+    protected final StringBuilder messageBuilder = new StringBuilder();
     @Setter
     protected String host;
     @Setter
@@ -18,6 +17,20 @@ public abstract class AbstractSocket {
     @Getter
     int configurationId;
 
-    abstract public void send(String message);
+    public String getMessage() {
+        return messageBuilder.toString();
+    }
+
+    abstract public boolean send(String message);
+
+    protected void fillOutMessage(InputStream inputStream) throws IOException {
+        while (true) {
+            int i = inputStream.read();
+            if (i == -1) break;
+            char character = (char) i;
+            if (character == '\n') break;
+            messageBuilder.append(character);
+        }
+    }
 
 }

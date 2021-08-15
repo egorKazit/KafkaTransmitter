@@ -13,6 +13,9 @@ import java.util.concurrent.LinkedBlockingDeque;
 class PullerQueueImp implements PullerQueue {
     private static final Queue<AbstractEntity> entityQueue = new LinkedBlockingDeque<>();
 
+    PullerQueueImp() {
+    }
+
     @Override
     public void putEntityInQueue(AbstractEntity entity) {
         log.trace("Adding entity {}", entity.toString());

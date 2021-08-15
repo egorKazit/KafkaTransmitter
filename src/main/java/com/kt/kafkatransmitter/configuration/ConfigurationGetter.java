@@ -47,7 +47,6 @@ public class ConfigurationGetter {
             log.info("Reset client config iter");
             clientConfigurationListIterator = getClientConfigurations().listIterator();
         }
-        log.info("Get Next");
         return clientConfigurationListIterator.next();
     }
 

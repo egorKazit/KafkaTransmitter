@@ -1,6 +1,7 @@
 package com.kt.kafkatransmitter.configuration;
 
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,10 +16,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+@Log4j2
 class ConfigurationReader {
 
     @Getter
     private Document document;
+
+    private static final String CONFIG_FILE = "/server_configuration.xml";
 
     private static final ConfigurationReader configurationReader = new ConfigurationReader();
 
@@ -28,14 +32,14 @@ class ConfigurationReader {
 
     private ConfigurationReader() {
         try {
-            InputStream is = ConfigurationReader.class.getResourceAsStream("/server_configuration.xml");
+            InputStream is = ConfigurationReader.class.getResourceAsStream(CONFIG_FILE);
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             document = documentBuilder.parse(is);
             document.getDocumentElement().normalize();
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
+            log.error("Error during configuration file reading {}", e.getMessage());
         }
     }
 
