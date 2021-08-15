@@ -21,17 +21,11 @@ public class ConsumerImp extends AbstractKafkaConfig implements Consumer {
 
     static {
         containerProperties = new ContainerProperties("Generic");
-        containerProperties.setMessageListener((MessageListener<Object, Object>) objectObjectConsumerRecord -> {
-            PullerQueueFactory.getInternalQueue().putEntityInQueue((AbstractEntity) objectObjectConsumerRecord.value());
-        });
+        containerProperties.setMessageListener((MessageListener<Object, Object>) objectObjectConsumerRecord ->
+                PullerQueueFactory.getInternalQueue().putEntityInQueue((AbstractEntity) objectObjectConsumerRecord.value()));
         kafkaMessageContainer = new KafkaMessageListenerContainer<>(new DefaultKafkaConsumerFactory<>(getConfig()), containerProperties);
         kafkaMessageContainer.start();
     }
-
-//    @Override
-//    public void handle(AbstractEntity entity) {
-//        internalQueueFactory..putEntityInQueue(entity);
-//    }
 
     protected static Map<String, Object> getConfig() {
         Map<String, Object> props = AbstractKafkaConfig.getConfig();

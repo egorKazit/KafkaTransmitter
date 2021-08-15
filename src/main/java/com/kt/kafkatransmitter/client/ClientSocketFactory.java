@@ -2,7 +2,6 @@ package com.kt.kafkatransmitter.client;
 
 import com.kt.kafkatransmitter.configuration.CommunicationConfiguration;
 import com.kt.kafkatransmitter.configuration.ConfigurationGetter;
-import com.kt.kafkatransmitter.model.AbstractEntity;
 
 import javax.naming.CommunicationException;
 import java.util.Objects;

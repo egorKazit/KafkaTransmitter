@@ -14,7 +14,7 @@ class UdpSocket extends AbstractSocket {
     }
 
     @Override
-    public void send(String message) {
+    public boolean send(String message) {
         try (DatagramSocket clientSocket = new DatagramSocket()) {
             InetAddress IPAddress = InetAddress.getByName(host);
             byte[] sendData = (message + "\r\n").getBytes();
@@ -24,11 +24,13 @@ class UdpSocket extends AbstractSocket {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             clientSocket.receive(packet);
             String received = new String(packet.getData(), 0, packet.getLength());
-            System.out.println("Quote of the Moment: " + received);
+            messageBuilder.append(received,0,packet.getLength());
         } catch (IOException e) {
             log.error("Error during sending: {}; Cause: {}", e.getMessage(), e.getCause());
             log.debug("The error is going to be re-thrown");
+            return false;
         }
+        return true;
     }
 
 }

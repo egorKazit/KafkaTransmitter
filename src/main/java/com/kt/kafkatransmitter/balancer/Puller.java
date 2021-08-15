@@ -12,6 +12,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 @Service
 public class Puller {
     private static final LinkedHashMap<Integer, Queue<Thread>> processQueue = new LinkedHashMap<>();
+    private static final Thread pullThread;
 
     static {
         ConfigurationGetter
@@ -19,7 +20,7 @@ public class Puller {
                 .forEach(communicationConfiguration ->
                         processQueue.put(communicationConfiguration.getId(),
                                 new LinkedBlockingDeque<>()));
-        new Thread(() -> {
+        pullThread = new Thread(() -> {
             while (true) {
                 processQueue.forEach((integer, threads) -> {
                     while (!threads.isEmpty()) {
@@ -27,7 +28,8 @@ public class Puller {
                     }
                 });
             }
-        }).start();
+        });
+        pullThread.start();
     }
 
     public static void addToQueue(AbstractEntity entity) {

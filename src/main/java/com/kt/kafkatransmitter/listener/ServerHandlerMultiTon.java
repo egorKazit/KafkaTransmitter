@@ -2,6 +2,7 @@ package com.kt.kafkatransmitter.listener;
 
 import com.kt.kafkatransmitter.kafka.Producer;
 import com.kt.kafkatransmitter.model.EntityFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
