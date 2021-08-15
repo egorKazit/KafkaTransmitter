@@ -33,7 +33,7 @@ jobs:
           
       # Start docker container
       - name: Start docker container
-        run: docker-compose up --build
+        run: docker-compose up -a
 
       # Runs build
       - name: Run build
