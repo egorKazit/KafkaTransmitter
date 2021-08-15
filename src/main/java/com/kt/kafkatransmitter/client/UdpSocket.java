@@ -1,15 +1,19 @@
 package com.kt.kafkatransmitter.client;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class UdpSocket extends AbstractSocket{
+@Log4j2
+class UdpSocket extends AbstractSocket {
 
     UdpSocket() {
     }
 
+    @Override
     public void send(String message) {
         try (DatagramSocket clientSocket = new DatagramSocket()) {
             InetAddress IPAddress = InetAddress.getByName(host);
@@ -22,7 +26,8 @@ public class UdpSocket extends AbstractSocket{
             String received = new String(packet.getData(), 0, packet.getLength());
             System.out.println("Quote of the Moment: " + received);
         } catch (IOException e) {
-
+            log.error("Error during sending: {}; Cause: {}", e.getMessage(), e.getCause());
+            log.debug("The error is going to be re-thrown");
         }
     }
 
