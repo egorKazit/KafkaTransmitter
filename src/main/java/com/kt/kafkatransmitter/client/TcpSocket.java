@@ -18,10 +18,11 @@ class TcpSocket extends AbstractSocket {
     @Override
     public boolean send(String message) {
         log.info("Start sending to host {} port {}...", host, port);
+        messageBuilder.setLength(0);
         try (Socket socket = SocketFactory
                 .getDefault()
                 .createSocket(host, port)) {
-            socket.setSoTimeout(1000);
+            socket.setSoTimeout(10000);
             socket.getOutputStream().write((message + "\r\n").getBytes());
             log.debug("Message {} was sent sent", message);
             log.debug("Waiting for response");

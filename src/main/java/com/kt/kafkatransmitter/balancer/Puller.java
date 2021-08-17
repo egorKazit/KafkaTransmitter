@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
 public class Puller {
-    private static final LinkedHashMap<Integer, Queue<Thread>> processQueue = new LinkedHashMap<>();
+    private static final LinkedHashMap<Integer, Queue<PullerWorker>> processQueue = new LinkedHashMap<>();
     private static final Thread pullThread;
 
     static {
@@ -22,9 +22,9 @@ public class Puller {
                                 new LinkedBlockingDeque<>()));
         pullThread = new Thread(() -> {
             while (true) {
-                processQueue.forEach((integer, threads) -> {
-                    while (!threads.isEmpty()) {
-                        threads.poll().start();
+                processQueue.forEach((id, pullerWorkers) -> {
+                    if (!pullerWorkers.isEmpty()) {
+                        pullerWorkers.poll().start();
                     }
                 });
             }
@@ -34,8 +34,8 @@ public class Puller {
 
     public static void addToQueue(AbstractEntity entity) {
         try {
-            PullerWorker pullerWorker = new PullerWorker(entity);
-            processQueue.get(pullerWorker.getConfigurationId()).add(pullerWorker);
+            PullerWorkerImp pullerWorkerImp = new PullerWorkerImp(entity);
+            processQueue.get(pullerWorkerImp.getConfigurationId()).add(pullerWorkerImp);
         } catch (CommunicationException e) {
             e.printStackTrace();
         }

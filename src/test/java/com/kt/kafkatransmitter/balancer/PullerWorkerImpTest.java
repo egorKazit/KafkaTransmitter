@@ -13,8 +13,8 @@ import java.lang.reflect.Modifier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PullerWorkerTest {
-    private PullerWorker pullerWorker;
+class PullerWorkerImpTest {
+    private PullerWorkerImp pullerWorkerImp;
     private AbstractSocket genericSocket;
     private AbstractEntity entity;
     private String stringToCheck;
@@ -22,32 +22,32 @@ class PullerWorkerTest {
     @BeforeEach
     public void setUp() throws CommunicationException, NoSuchFieldException, IllegalAccessException {
         entity = Mockito.mock(AbstractEntity.class);
-        pullerWorker = new PullerWorker(entity);
+        pullerWorkerImp = new PullerWorkerImp(entity);
         genericSocket = Mockito.mock(AbstractSocket.class);
         Mockito.when(genericSocket.send(Mockito.anyString())).thenAnswer(
                 invocationOnMock -> {
                     stringToCheck = invocationOnMock.getArgument(0).toString();
-                    pullerWorker.interrupt();
+                    pullerWorkerImp.interrupt();
                     return null;
                 }
         );
         Mockito.when(genericSocket.getConfigurationId()).thenReturn(2004);
 
-        Field genericSocketField = pullerWorker.getClass().getDeclaredField("genericSocket");
+        Field genericSocketField = pullerWorkerImp.getClass().getDeclaredField("genericSocket");
         genericSocketField.setAccessible(true);
 
         Field modifiers = Field.class.getDeclaredField("modifiers");
         modifiers.setAccessible(true);
         modifiers.set(genericSocketField, genericSocketField.getModifiers() & ~Modifier.FINAL);
 
-        genericSocketField.set(pullerWorker, genericSocket);
+        genericSocketField.set(pullerWorkerImp, genericSocket);
     }
 
     @Test
     public void checkSending() throws InterruptedException {
-        pullerWorker.start();
+        pullerWorkerImp.start();
         int counter = 0;
-        while (pullerWorker.isAlive() && counter < 10) {
+        while (pullerWorkerImp.isAlive() && counter < 10) {
             Thread.sleep(1000);
             counter++;
         }
@@ -56,7 +56,7 @@ class PullerWorkerTest {
 
     @Test
     public void checkConfigurationId() {
-        assertEquals(2004, pullerWorker.getConfigurationId());
+        assertEquals(2004, pullerWorkerImp.getConfigurationId());
     }
 
 }

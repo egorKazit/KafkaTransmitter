@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class TcpSocketTest {
 
     private static final int PORT = 10101;
-    private Thread server;
-    public TcpSocket tcpSocket;
+    private static Thread server;
+    public static TcpSocket tcpSocket;
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeAll
+    public static void globalSetUp() {
         tcpSocket = new TcpSocket();
         server = new Thread(() -> {
             try {
@@ -27,59 +27,55 @@ class TcpSocketTest {
         server.start();
     }
 
-    @AfterEach
-    public void teardown() {
-        server.interrupt();
+    @AfterAll
+    public static void teardown() {
+        LocalServer.isAlive = false;
     }
 
-//    @Test
-//    public void checkSocketSendsEmptyString() {
-//        tcpSocket.setHost("localhost");
-//        tcpSocket.setPort(PORT);
-//        assertFalse(tcpSocket.send(""));
-//        assertTrue(tcpSocket.getMessage().isEmpty());
-//    }
-//
-//    @Test
-//    public void checkSocketSendsNonEmptyString() {
-//        tcpSocket.setHost("localhost");
-//        tcpSocket.setPort(PORT);
-//        String stringIn = "TestStringIn";
-//        assertTrue(tcpSocket.send(stringIn));
-//        assertFalse(tcpSocket.getMessage().isEmpty());
-//        assertEquals(tcpSocket.getMessage(), stringIn + "\r");
-//    }
-//
-//    @Test
-//    public void checkOnClosedPort() {
-//        tcpSocket.setHost("localhost");
-//        tcpSocket.setPort(0);
-//        String stringIn = "TestStringIn";
-//        assertFalse(tcpSocket.send(stringIn));
-//        assertTrue(tcpSocket.getMessage().isEmpty());
-//    }
+    @Test
+    public void checkSocketSendsNonEmptyString() {
+        tcpSocket.setHost("localhost");
+        tcpSocket.setPort(PORT);
+        String stringIn = "TestStringIn";
+        assertTrue(tcpSocket.send(stringIn));
+        assertFalse(tcpSocket.getMessage().isEmpty());
+        assertEquals(tcpSocket.getMessage(), stringIn + "\r");
+    }
+
+    @Test
+    public void checkOnClosedPort() {
+        tcpSocket.setHost("localhost");
+        tcpSocket.setPort(0);
+        String stringIn = "TestStringIn";
+        assertFalse(tcpSocket.send(stringIn));
+        assertTrue(tcpSocket.getMessage().isEmpty());
+    }
 
     private static class LocalServer {
+        private static boolean isAlive;
         private final ServerSocket serverSocket;
 
         private LocalServer() throws IOException {
             serverSocket = new ServerSocket(PORT);
+            isAlive = true;
         }
 
         public void start() throws IOException {
-            Socket socketFromClient = serverSocket.accept();
-            InputStream inputStream = socketFromClient.getInputStream();
-            StringBuilder requestBuilder = new StringBuilder();
-            while (true) {
-                int i = inputStream.read();
-                if (i == -1) break;
-                char character = (char) i;
-                if (character == '\n') break;
-                requestBuilder.append(character);
+            while (isAlive) {
+                Socket socketFromClient = serverSocket.accept();
+                InputStream inputStream = socketFromClient.getInputStream();
+                StringBuilder requestBuilder = new StringBuilder();
+                while (true) {
+                    int i = inputStream.read();
+                    if (i == -1) break;
+                    char character = (char) i;
+                    if (character == '\n') break;
+                    requestBuilder.append(character);
+                }
+                socketFromClient.getOutputStream().write(requestBuilder.toString().getBytes());
+                socketFromClient.getOutputStream().flush();
+                socketFromClient.close();
             }
-            socketFromClient.getOutputStream().write(requestBuilder.toString().getBytes());
-            socketFromClient.getOutputStream().flush();
-            socketFromClient.close();
         }
 
     }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 
 @Service
+@Log4j2
 public class ServerHandlerMultiTon {
 
     @Autowired
@@ -38,12 +39,16 @@ public class ServerHandlerMultiTon {
         }
 
         @Override
-        public void handleMessage(byte[] message, MessageHeaders messageHeaders) throws JSONException {
+        public void handleMessage(byte[] message, MessageHeaders messageHeaders) {
             String s = new String(message);
-            JSONObject parsedMessage = new JSONObject(s);
-            String topicFromInput = parsedMessage.getString("topic");
-            String messageFromInput = parsedMessage.getString("message");
-            producer.send(topicFromInput, EntityFactory.getEntityByTopicName(topicFromInput).handleString(messageFromInput));
+            try {
+                JSONObject parsedMessage = new JSONObject(s);
+                String topicFromInput = parsedMessage.getString("topic");
+                String messageFromInput = parsedMessage.getString("message");
+                producer.send(topicFromInput, EntityFactory.getEntityByTopicName(topicFromInput).handleString(messageFromInput));
+            } catch (JSONException e) {
+                log.error("Error during serialization {}", e.getMessage());
+            }
         }
     }
 }
