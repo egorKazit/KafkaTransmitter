@@ -1,14 +1,21 @@
 package com.kt.kafkatransmitter.model;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+/**
+ * Entity factory.
+ * It allows to produce abstract entity
+ */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class EntityFactory {
 
-    public static final String GENERIC_ENTITY = "GENERIC_ENTITY";
-    public static final String USER_ENTITY = "USER_ENTITY";
-
-    private EntityFactory() {
-
-    }
-
+    /**
+     * Method to get entity by topic
+     *
+     * @param topicName topic name
+     * @return abstract entity
+     */
     public static AbstractEntity getEntityByTopicName(String topicName) {
         switch (Topic.valueOf(topicName)) {
             case Generic:

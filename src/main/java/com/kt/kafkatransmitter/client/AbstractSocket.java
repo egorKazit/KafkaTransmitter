@@ -6,6 +6,10 @@ import lombok.Setter;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Abstract socket to any destination.
+ * Currently, it supports tcp and udp
+ */
 public abstract class AbstractSocket {
     public static final String TCP_TYPE = "tcp";
     public static final String UDP_TYPE = "udp";
@@ -17,19 +21,34 @@ public abstract class AbstractSocket {
     @Getter
     int configurationId;
 
+    /**
+     * Method to read received message
+     *
+     * @return message
+     */
     public String getMessage() {
         return messageBuilder.toString();
     }
 
-    abstract public boolean send(String message);
+    /**
+     * Own implementation of sending data that depends on connection
+     *
+     * @param message message to send
+     * @return true if sent
+     */
+    public abstract boolean send(String message);
 
-    protected void fillOutMessage(InputStream inputStream) throws IOException {
+    /**
+     * Method to read data from stream
+     *
+     * @param inputStream input stream
+     * @throws IOException exception on read
+     */
+    protected void readDataFromStream(InputStream inputStream) throws IOException {
         while (true) {
             int i = inputStream.read();
-            if (i == -1) break;
-            char character = (char) i;
-            if (character == '\n') break;
-            messageBuilder.append(character);
+            if (i == -1 || (char) i == '\n') break;
+            messageBuilder.append((char) i);
         }
     }
 

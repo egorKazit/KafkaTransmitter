@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class ConsumerImp extends AbstractKafkaConfig implements Consumer {
+public class ConsumerImp extends AbstractKafkaConfig {
 
     private static final KafkaMessageListenerContainer<Long, String> kafkaMessageContainer;
     private static final ContainerProperties containerProperties;

@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * Configuration reader
+ */
 @Log4j2
 class ConfigurationReader {
 
@@ -24,18 +27,21 @@ class ConfigurationReader {
 
     private static final String CONFIG_FILE = "/server_configuration.xml";
 
+    @Getter
     private static final ConfigurationReader configurationReader = new ConfigurationReader();
 
-    static ConfigurationReader getConfigurationReader() {
-        return configurationReader;
-    }
-
+    /**
+     * Main configuration constructor
+     */
     private ConfigurationReader() {
         try {
+            // read configuration
             InputStream is = ConfigurationReader.class.getResourceAsStream(CONFIG_FILE);
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            // create document builder
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            // parse and normalize
             document = documentBuilder.parse(is);
             document.getDocumentElement().normalize();
         } catch (ParserConfigurationException | IOException | SAXException e) {

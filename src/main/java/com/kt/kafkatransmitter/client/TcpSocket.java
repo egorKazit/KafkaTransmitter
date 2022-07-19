@@ -1,19 +1,19 @@
 package com.kt.kafkatransmitter.client;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import javax.net.SocketFactory;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.Socket;
 
+/**
+ * TCP socket
+ */
+@NoArgsConstructor(access = AccessLevel.MODULE)
 @Log4j2
 class TcpSocket extends AbstractSocket {
-
-    TcpSocket() {
-    }
 
     @Override
     public boolean send(String message) {
@@ -26,7 +26,7 @@ class TcpSocket extends AbstractSocket {
             socket.getOutputStream().write((message + "\r\n").getBytes());
             log.debug("Message {} was sent sent", message);
             log.debug("Waiting for response");
-            fillOutMessage(socket.getInputStream());
+            readDataFromStream(socket.getInputStream());
         } catch (IOException e) {
             log.error("Error during sending: {}; Cause: {}", e.getMessage(), e.getCause());
             log.debug("The error is going to be re-thrown");

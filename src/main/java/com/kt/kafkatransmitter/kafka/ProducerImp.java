@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+/**
+ * Kafka producer
+ */
 @Service
 public class ProducerImp extends AbstractKafkaConfig implements Producer {
 
@@ -22,11 +25,22 @@ public class ProducerImp extends AbstractKafkaConfig implements Producer {
         kafkaTemplate.setMessageConverter(new StringJsonMessageConverter());
     }
 
+    /**
+     * See Producer.send
+     *
+     * @param topic          kafka topic
+     * @param abstractEntity abstract entity
+     */
     @Override
-    public void send(String topic, AbstractEntity message) {
-        kafkaTemplate.send(topic, message);
+    public void send(String topic, AbstractEntity abstractEntity) {
+        kafkaTemplate.send(topic, abstractEntity);
     }
 
+    /**
+     * Method to get config
+     *
+     * @return map with kafka configuration
+     */
     protected static Map<String, Object> getConfig() {
         Map<String, Object> props = AbstractKafkaConfig.getConfig();
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);

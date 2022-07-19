@@ -3,14 +3,17 @@ package com.kt.kafkatransmitter.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Generic entry
+ */
 @Data
-@EqualsAndHashCode(callSuper = true)
-class GenericEntity extends AbstractEntity {
+@EqualsAndHashCode(callSuper = false)
+class GenericEntity implements AbstractEntity {
     private String genericValue;
 
     @Override
-    public AbstractEntity handleString(String values) {
-        this.genericValue = values;
+    public AbstractEntity handleString(String value) {
+        this.genericValue = value;
         return this;
     }
 }

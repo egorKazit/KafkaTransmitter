@@ -1,8 +1,11 @@
 package com.kt.kafkatransmitter.model;
 
-public class UserEntity extends  AbstractEntity{
+/**
+ * User entry
+ */
+public class UserEntity implements AbstractEntity {
     @Override
-    public AbstractEntity handleString(String values) {
+    public AbstractEntity handleString(String value) {
         return this;
     }
 }

@@ -64,7 +64,7 @@ class ClientSocketFactoryTest {
 
     private static void addConfiguration(int id, String type) throws NoSuchFieldException, IllegalAccessException {
         CommunicationConfiguration communicationConfiguration = new CommunicationConfiguration();
-        Field idField = communicationConfiguration.getClass().getDeclaredField("Id");
+        Field idField = communicationConfiguration.getClass().getDeclaredField("id");
         idField.setAccessible(true);
         idField.set(communicationConfiguration, id);
         Field typeField = communicationConfiguration.getClass().getDeclaredField("type");
