@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * Server register.
+ * It goes thought server configurations and creates communication flow
+ */
 @Component
 @Log4j2
 public class ServerRegister {
@@ -20,16 +24,17 @@ public class ServerRegister {
     @Autowired
     private ServerIterator serverIterator;
 
+    /**
+     * Post-construct to create bean per each configuration
+     */
     @PostConstruct
     void registerIntegrations() {
-        int i = 0;
+        int index = 0;
         while (serverIterator.hasNext()) {
-            i++;
-            integrationFlowContext
-                    .registration(serverIterator.getNext())
-                    .id(INTEGRATION_FLOW_PREFIX + i)
-                    .register();
-            log.info("Listener {} is started",INTEGRATION_FLOW_PREFIX + i);
+            index++;
+            // perform registration
+            integrationFlowContext.registration(serverIterator.getNext()).id(INTEGRATION_FLOW_PREFIX + index).register();
+            log.info("Listener {} is started", INTEGRATION_FLOW_PREFIX + index);
         }
 
     }

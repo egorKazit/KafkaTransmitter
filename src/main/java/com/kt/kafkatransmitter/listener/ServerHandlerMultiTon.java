@@ -2,6 +2,8 @@ package com.kt.kafkatransmitter.listener;
 
 import com.kt.kafkatransmitter.kafka.Producer;
 import com.kt.kafkatransmitter.model.EntityFactory;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 
+/**
+ * Server MultiTon
+ */
 @Service
 @Log4j2
 public class ServerHandlerMultiTon {
@@ -18,25 +23,34 @@ public class ServerHandlerMultiTon {
     @Autowired
     private static Producer producer;
 
+    private static final HashMap<String, ServerHandler> serverHandlers = new HashMap<>();
+
+    /**
+     * Main constructor
+     *
+     * @param producer kafka producer
+     */
     @Autowired
     ServerHandlerMultiTon(Producer producer) {
         ServerHandlerMultiTon.producer = producer;
     }
 
-    private static final HashMap<String, ServerHandler> serverHandlers = new HashMap<>();
-
+    /**
+     * Method to get server handler
+     *
+     * @param handlerId handler id
+     * @return server handler
+     */
     static ServerHandler getServerHandler(String handlerId) {
-        if (!serverHandlers.containsKey(handlerId)) {
-            serverHandlers.put(handlerId, new ServerHandlerImp());
-        }
-        return serverHandlers.get(handlerId);
+        return serverHandlers.computeIfAbsent(handlerId, (key) -> new ServerHandlerImp());
     }
 
+    /**
+     * Server handler
+     */
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @Service
     public static class ServerHandlerImp implements ServerHandler {
-
-        private ServerHandlerImp() {
-        }
 
         @Override
         public void handleMessage(byte[] message, MessageHeaders messageHeaders) {

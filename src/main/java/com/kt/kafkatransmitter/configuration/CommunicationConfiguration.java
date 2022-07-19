@@ -2,13 +2,14 @@ package com.kt.kafkatransmitter.configuration;
 
 import lombok.Getter;
 
+/**
+ * Communication configuration
+ */
+@Getter
 public class CommunicationConfiguration {
-    @Getter
-    int Id;
-    @Getter
+
+    int id;
     String host;
-    @Getter
     int port;
-    @Getter
     String type;
 }

@@ -1,7 +1,14 @@
 package com.kt.kafkatransmitter.balancer;
 
+/**
+ * Puller worker. It extends Runnable interface to make a worker executable
+ */
 public interface PullerWorker extends Runnable {
-    int getConfigurationId();
 
-    void start();
+    /**
+     * Method to get configuration Id
+     *
+     * @return configuration Id
+     */
+    int getConfigurationId();
 }

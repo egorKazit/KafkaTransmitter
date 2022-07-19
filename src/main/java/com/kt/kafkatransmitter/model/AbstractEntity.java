@@ -1,14 +1,20 @@
 package com.kt.kafkatransmitter.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 
+/**
+ * Abstract entity.
+ * It is general entity that should be a parent on any entity
+ */
+public interface AbstractEntity extends Serializable {
 
-@Data
-public abstract class AbstractEntity implements Serializable {
+    /**
+     * Method to handle string.
+     * For example, assign value to some attribute
+     *
+     * @param value string value
+     * @return abstract entity
+     */
+    AbstractEntity handleString(String value);
 
-    public abstract AbstractEntity handleString(String values);
 }

@@ -13,7 +13,7 @@ import java.lang.reflect.Modifier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PullerWorkerImpTest {
+class PullControllerWorkerImpTest {
     private PullerWorkerImp pullerWorkerImp;
     private AbstractSocket genericSocket;
     private AbstractEntity entity;

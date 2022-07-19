@@ -29,7 +29,7 @@ class JavaSerializerTest {
     public void checkSerializationWithError() {
         AbstractEntity entity = new AbstractEntity() {
             @Override
-            public AbstractEntity handleString(String values) {
+            public AbstractEntity handleString(String value) {
                 return this;
             }
         };

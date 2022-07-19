@@ -2,9 +2,9 @@ package com.kt.kafkatransmitter.util;
 
 import com.kt.kafkatransmitter.model.AbstractEntity;
 import com.kt.kafkatransmitter.model.EntityFactory;
+import lombok.NonNull;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -75,7 +75,7 @@ class JavaDeserializerTest {
             return new Header[0];
         }
 
-        @NotNull
+        @NonNull
         @Override
         public Iterator<Header> iterator() {
             return null;

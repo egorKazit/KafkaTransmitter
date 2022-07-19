@@ -1,5 +1,7 @@
 package com.kt.kafkatransmitter.client;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -7,18 +9,19 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+/**
+ * UDP socket
+ */
+@NoArgsConstructor(access = AccessLevel.MODULE)
 @Log4j2
 class UdpSocket extends AbstractSocket {
-
-    UdpSocket() {
-    }
 
     @Override
     public boolean send(String message) {
         try (DatagramSocket clientSocket = new DatagramSocket()) {
-            InetAddress IPAddress = InetAddress.getByName(host);
+            InetAddress inetAddress = InetAddress.getByName(host);
             byte[] sendData = (message + "\r\n").getBytes();
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, inetAddress, port);
             clientSocket.send(sendPacket);
             byte[] buf = new byte[256];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);

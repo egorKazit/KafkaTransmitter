@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 
+/**
+ * Topics list
+ */
 public enum Topic {
     User(new ArrayList<>()),
     Generic(new ArrayList<>());
