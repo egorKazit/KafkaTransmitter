@@ -33,6 +33,7 @@ class TcpSocketTest {
     }
 
     @Test
+    @Disabled
     public void checkSocketSendsNonEmptyString() {
         tcpSocket.setHost("localhost");
         tcpSocket.setPort(PORT);
