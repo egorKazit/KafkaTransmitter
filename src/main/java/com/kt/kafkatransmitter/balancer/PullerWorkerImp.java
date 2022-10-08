@@ -45,6 +45,7 @@ public class PullerWorkerImp extends Thread implements PullerWorker {
         super.run();
         log.trace(entity);
         genericSocket.send(entity.toString());
+        log.info("Server responded with message: {}", genericSocket.getMessage());
     }
 
 }
